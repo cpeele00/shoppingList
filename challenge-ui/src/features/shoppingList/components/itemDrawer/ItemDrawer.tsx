@@ -1,9 +1,16 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import * as styles from './styles';
 import { IconButton } from '../../../../common/components';
 import { FormHeader, FormSubHeader } from '../../../../common/components/elements';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Button from '@mui/material/Button';
+import { useForm, Controller } from 'react-hook-form';
+import * as styles from './styles';
 
 type ItemDrawerPropsType = {
   isOpen: boolean;
@@ -11,6 +18,20 @@ type ItemDrawerPropsType = {
 };
 
 export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      itemName: 'milk',
+      itemDescription: 'go get sum milk',
+      itemCount: 3,
+    },
+  });
+
   return (
     <Drawer anchor={'right'} open={isOpen} onClose={() => console.log('on close')}>
       <div css={styles.itemDrawer}>
@@ -41,11 +62,83 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer }) => 
         <main
           css={{
             padding: '30px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: 'calc(100vh - 72px)',
           }}>
-          <FormHeader>Add an Item</FormHeader>
-          <FormSubHeader>Add your new item below</FormSubHeader>
+          {/* <form> */}
+          <div
+            css={{
+              justifyContent: 'normal',
+            }}>
+            <FormHeader>Add an Item</FormHeader>
+            <FormSubHeader>Add your new item below</FormSubHeader>
+
+            <TextField
+              id='outlined-basic'
+              label='Item Name'
+              variant='outlined'
+              {...register('itemName')}
+              css={{
+                width: '100%',
+              }}
+            />
+
+            <TextField
+              id='outlined-multiline-static'
+              label='Item Description'
+              multiline
+              rows={4}
+              {...register('itemDescription')}
+              css={{ width: '100%', marginTop: '18px' }}
+            />
+
+            <FormControl
+              fullWidth
+              css={{
+                marginTop: '18px',
+              }}>
+              <InputLabel id='demo-simple-select-label'>How many?</InputLabel>
+              <Controller
+                name='itemCount'
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    labelId='demo-simple-select-label'
+                    id='demo-simple-select'
+                    label='How many?'
+                    {...field}>
+                    <MenuItem value={1}>1</MenuItem>
+                    <MenuItem value={2}>2</MenuItem>
+                    <MenuItem value={3}>3</MenuItem>
+                  </Select>
+                )}
+              />
+            </FormControl>
+          </div>
+          <div
+            css={{
+              alignSelf: 'flex-end',
+              justifySelf: 'flex-end',
+            }}>
+            <Button
+              onClick={() => closeDrawer()}
+              css={{
+                marginRight: 15,
+              }}>
+              Cancel
+            </Button>
+            <Button variant='contained' onClick={handleSubmit(saveTask)}>
+              Add task
+            </Button>
+          </div>
         </main>
       </div>
     </Drawer>
   );
+
+  function saveTask(data) {
+    console.log(data);
+  }
 };

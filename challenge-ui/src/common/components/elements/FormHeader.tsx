@@ -9,4 +9,5 @@ export const FormHeader = styled('h2')({
   letterSpacing: '-1.30385e-9px',
   color: '#2a323c',
   marginBottom: '5px',
+  marginTop: 0,
 });
