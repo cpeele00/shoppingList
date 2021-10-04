@@ -2,9 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import CssBaseline from '@mui/material/CssBaseline';
+import GlobalStyles from '@mui/material/GlobalStyles';
 
 ReactDOM.render(
   <React.StrictMode>
+    <CssBaseline />
+    <GlobalStyles
+      styles={{
+        body: {
+          backgroundColor: '#e5e5e5',
+          fontFamily: 'Nunito',
+        },
+      }}
+    />
     <App />
   </React.StrictMode>,
   document.getElementById('root')

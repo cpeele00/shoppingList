@@ -1,23 +1,32 @@
-import React, { useEffect } from 'react';
-import { fetcher } from './common/async/fetcher';
-import { helloQuery } from './common/queries/shoppingList.query';
-import { ShoppingList } from './features/shoppingList/ShoppingList';
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Header } from './common/components';
 import './app.css';
+import { Container } from './common/components';
 
-function App() {
-  useEffect(() => {
-    (async function getData() {
-      const data = await fetcher(helloQuery);
-
-      console.log(data);
-    })();
-  }, []);
+const App = () => {
+  const ShoppingList = lazy(
+    () => import(/* webpackChunkName: "ShoppingList" */ './features/shoppingList/ShoppingList')
+  );
 
   return (
-    <div className='app'>
-      <ShoppingList />
-    </div>
+    <>
+      <Router>
+        <div className='app'>
+          <Header title='Shopping List' />
+
+          <Container>
+            <Switch>
+              <Suspense fallback={<h3>Loading...</h3>}>
+                <Route exact path='/' component={ShoppingList} />
+                <Route exact path='/list' component={ShoppingList} />
+              </Suspense>
+            </Switch>
+          </Container>
+        </div>
+      </Router>
+    </>
   );
-}
+};
 
 export default App;
