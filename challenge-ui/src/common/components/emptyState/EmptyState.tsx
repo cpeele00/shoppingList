@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { styled } from '@mui/material/styles';
 
-export const EmptyState = ({ children }) => {
+type EmptyStatePropsType = {
+  children: JSX.Element;
+};
+
+export const EmptyState: FC<EmptyStatePropsType> = ({ children }) => {
   const Container = styled('div')({
     border: '1px solid #C6C6C6',
     padding: '8rem',
