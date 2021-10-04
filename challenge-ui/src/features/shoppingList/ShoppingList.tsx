@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { EmptyState } from '../../common/components';
 import { List } from './components';
-import Drawer from '@mui/material/Drawer';
+import { ItemDrawer } from './components';
 
 const ShoppingList = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -42,9 +42,7 @@ const ShoppingList = () => {
         </EmptyState> */}
       </List>
 
-      <Drawer anchor={'right'} open={isDrawerOpen} onClose={() => console.log('on close')}>
-        <button onClick={() => setIsDrawerOpen(false)}>Close</button>
-      </Drawer>
+      <ItemDrawer isOpen={isDrawerOpen} closeDrawer={() => setIsDrawerOpen(false)} />
     </>
   );
 };
