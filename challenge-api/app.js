@@ -1,35 +1,31 @@
 const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const { ApolloServer, gql } = require('apollo-server-express');
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
 const http = require('http');
 const cors = require('cors');
 
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
-
-// var app = express();
-
-// app.use(logger('dev'));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
-
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-
 const typeDefs = gql`
   type Query {
     hello: String
+    items: [Item!]!
+  }
+
+  type Item {
+    id: ID!
+    title: String
+    description: String
+    numberOfItems: Int
   }
 `;
 
 const resolvers = {
   Query: {
     hello: () => 'Hello world!!',
+    items: () => [
+      { id: 1, title: 'Milk', description: 'go get more milk', numberOfItems: 2 },
+      { id: 2, title: 'Water', description: 'am thirsty', numberOfItems: 1 },
+      { id: 3, title: 'Cheeze', description: 'need that chedda', numberOfItems: 1 },
+    ],
   },
 };
 

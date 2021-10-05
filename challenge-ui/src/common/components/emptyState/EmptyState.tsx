@@ -18,6 +18,8 @@ export const EmptyState: FC<EmptyStatePropsType> = ({ children }) => {
     height: 'auto',
     minHeight: '290px',
     background: '#fff',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   });
 
   const Content = styled('div')({

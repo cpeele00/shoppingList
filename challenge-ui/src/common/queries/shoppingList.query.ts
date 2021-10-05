@@ -1,12 +1,23 @@
-export const helloQuery = () => {
+import { fetcher } from '../async/fetcher';
+
+export const getAllItemsQuery = async () => {
   const query = `
-    query {
-      hello
+    query Query {
+      items {
+        id,
+        title,
+        description,
+        numberOfItems
+      }
     }
   `;
 
-  return {
+  const queryData = {
     query: query,
     variables: {},
   };
+
+  const result = await fetcher(queryData);
+
+  return result;
 };

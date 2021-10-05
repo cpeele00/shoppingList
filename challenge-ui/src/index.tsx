@@ -4,20 +4,23 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
-import { ThemeProvider } from '@mui/material';
+import { Provider } from 'react-redux';
+import store from './redux/configureStore';
 
 ReactDOM.render(
   <React.StrictMode>
-    <CssBaseline />
-    <GlobalStyles
-      styles={{
-        body: {
-          backgroundColor: '#e5e5e5',
-          fontFamily: 'Nunito',
-        },
-      }}
-    />
-    <App />
+    <Provider store={store}>
+      <CssBaseline />
+      <GlobalStyles
+        styles={{
+          body: {
+            backgroundColor: '#e5e5e5',
+            fontFamily: 'Nunito',
+          },
+        }}
+      />
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
