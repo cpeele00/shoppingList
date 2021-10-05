@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Header } from './common/components';
+import { Header, Spinner } from './common/components';
 import './app.css';
 import { Container } from './common/components';
 
@@ -17,7 +17,7 @@ const App = () => {
 
           <Container>
             <Switch>
-              <Suspense fallback={<h3>Loading...</h3>}>
+              <Suspense fallback={<Spinner />}>
                 <Route exact path='/' component={ShoppingList} />
                 <Route exact path='/list' component={ShoppingList} />
               </Suspense>
