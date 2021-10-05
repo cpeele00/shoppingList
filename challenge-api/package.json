@@ -1,6 +1,9 @@
 {
   "name": "challenge-api",
   "version": "0.0.0",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=development && nodemon app"

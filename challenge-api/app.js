@@ -3,11 +3,25 @@ const { ApolloServer, gql } = require('apollo-server-express');
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
 const http = require('http');
 const cors = require('cors');
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 
 const typeDefs = gql`
   type Query {
-    hello: String
     items: [Item!]!
+  }
+
+  type Mutation {
+    deleteItem(id: ID!): Item
+    addItem(title: String!, description: String!, numberOfItems: Int!, isComplete: Boolean): Item
+    updateItem(
+      id: ID!
+      title: String!
+      description: String!
+      numberOfItems: Int!
+      isComplete: Boolean
+    ): Item
   }
 
   type Item {
@@ -21,18 +35,37 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    hello: () => 'Hello world!!',
-    items: () => [
-      { id: 1, title: 'Milk', description: 'go get more milk', numberOfItems: 2, isComplete: true },
-      { id: 2, title: 'Water', description: 'am thirsty', numberOfItems: 1, isComplete: false },
-      {
-        id: 3,
-        title: 'Cheeze',
-        description: 'need that chedda',
-        numberOfItems: 1,
-        isComplete: false,
-      },
-    ],
+    items: () => prisma.item.findMany(),
+  },
+  Mutation: {
+    addItem: (parent, args, context, info) =>
+      prisma.item.create({
+        data: {
+          title: args.title,
+          description: args.description,
+          numberOfItems: args.numberOfItems,
+          isComplete: args.isComplete,
+        },
+      }),
+
+    updateItem: (parent, args, context, info) =>
+      prisma.item.update({
+        where: {
+          id: parseInt(args.id),
+        },
+        data: {
+          title: args.title,
+          description: args.description,
+          numberOfItems: args.numberOfItems,
+          isComplete: args.isComplete,
+        },
+      }),
+    deleteItem: (parent, args, context, info) =>
+      prisma.item.delete({
+        where: {
+          id: parseInt(args.id),
+        },
+      }),
   },
 };
 
