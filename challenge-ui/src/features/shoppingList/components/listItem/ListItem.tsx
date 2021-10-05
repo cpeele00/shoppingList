@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FC, MouseEventHandler, useState } from 'react';
+import React, { ChangeEventHandler, FC, MouseEventHandler, useState, useEffect } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import * as styles from './styles';
@@ -8,6 +8,7 @@ import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 type ListItemPropsType = {
   title: string;
   description: string;
+  complete: boolean;
   onToggleComplete: Function;
   onEdit: Function;
   onDelete: Function;
@@ -16,16 +17,25 @@ type ListItemPropsType = {
 export const ListItem: FC<ListItemPropsType> = ({
   title,
   description,
+  complete,
   onToggleComplete,
   onEdit,
   onDelete,
 }) => {
-  const [isComplete, setIsComplete] = useState(false);
+  const [isComplete, setIsComplete] = useState(complete);
+
+  useEffect(() => {
+    setIsComplete(complete);
+  }, [complete]);
 
   return (
     <div css={styles.listItem(isComplete)}>
       <div css={styles.listItemLeftContainer}>
-        <Checkbox aria-label='toggle item done' onChange={handleToggleComplete} />
+        <Checkbox
+          aria-label='toggle item done'
+          onChange={handleToggleComplete}
+          defaultChecked={isComplete}
+        />
         <div css={styles.listItemMeta}>
           <h3 css={styles.listItemTitle(isComplete)}>{title}</h3>
           <p css={styles.listItemDescription(isComplete)}>{description}</p>

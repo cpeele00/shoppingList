@@ -7,7 +7,8 @@ export const getAllItemsQuery = async () => {
         id,
         title,
         description,
-        numberOfItems
+        numberOfItems,
+        isComplete
       }
     }
   `;

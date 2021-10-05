@@ -53,6 +53,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({ items }) => {
                 key={item.id}
                 title={item.title}
                 description={item.description}
+                complete={item.isComplete}
                 onToggleComplete={() => console.log('toggled')}
                 onEdit={() => console.log('on edit clicked')}
                 onDelete={() => console.log('on delete clicked')}

@@ -15,6 +15,7 @@ const typeDefs = gql`
     title: String
     description: String
     numberOfItems: Int
+    isComplete: Boolean
   }
 `;
 
@@ -22,9 +23,15 @@ const resolvers = {
   Query: {
     hello: () => 'Hello world!!',
     items: () => [
-      { id: 1, title: 'Milk', description: 'go get more milk', numberOfItems: 2 },
-      { id: 2, title: 'Water', description: 'am thirsty', numberOfItems: 1 },
-      { id: 3, title: 'Cheeze', description: 'need that chedda', numberOfItems: 1 },
+      { id: 1, title: 'Milk', description: 'go get more milk', numberOfItems: 2, isComplete: true },
+      { id: 2, title: 'Water', description: 'am thirsty', numberOfItems: 1, isComplete: false },
+      {
+        id: 3,
+        title: 'Cheeze',
+        description: 'need that chedda',
+        numberOfItems: 1,
+        isComplete: false,
+      },
     ],
   },
 };
