@@ -1,19 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { FC, useState } from 'react';
 import Button from '@mui/material/Button';
 import { EmptyState } from '../../common/components';
 import { List } from './components';
 import { ItemDrawer } from './components';
-import { GET_ITEMS } from './state/shoppingList.state';
 
-const ShoppingList = () => {
+type ShoppingListPropTypes = {
+  items: any[];
+};
+
+export const ShoppingList: FC<ShoppingListPropTypes> = ({ items }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const dispatch = useDispatch();
-  const items = useSelector((state: any) => state.items);
-
-  useEffect(() => {
-    dispatch({ type: GET_ITEMS });
-  }, [dispatch]);
 
   return (
     <>
@@ -68,5 +64,3 @@ const ShoppingList = () => {
     }
   }
 };
-
-export default ShoppingList;

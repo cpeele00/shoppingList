@@ -6,7 +6,10 @@ import { Container } from './common/components';
 
 const App = () => {
   const ShoppingList = lazy(
-    () => import(/* webpackChunkName: "ShoppingList" */ './features/shoppingList/ShoppingList')
+    () =>
+      import(
+        /* webpackChunkName: "ShoppingList" */ './features/shoppingList/ShoppingList.container'
+      )
   );
 
   return (
