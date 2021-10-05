@@ -1,13 +1,13 @@
 import { applyMiddleware, combineReducers, createStore, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { itemsReducer } from '../features/shoppingList/state/shoppingList.reducer';
-import { watcherSaga } from '../common/app/app.saga';
+import { rootSaga } from './app.saga';
 
 const reducer = combineReducers({
   items: itemsReducer,
 });
 
-const sagaMiddleWare = createSagaMiddleware(watcherSaga);
+const sagaMiddleWare = createSagaMiddleware();
 const store = createStore(
   reducer,
   compose(
@@ -16,6 +16,6 @@ const store = createStore(
   )
 );
 
-sagaMiddleWare.run(watcherSaga);
+sagaMiddleWare.run(rootSaga);
 
 export default store;
