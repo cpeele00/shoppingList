@@ -23,6 +23,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     if (!status) return;
@@ -30,6 +31,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
     if (status.statusType === 'success') {
       setShowSnackbar(true);
       setIsDrawerOpen(false);
+      setSelectedItem(null);
     }
   }, [status]);
 
@@ -58,8 +60,10 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
         </div>
       </Snackbar>
       <ItemDrawer
+        item={selectedItem}
         isOpen={isDrawerOpen}
         isProcessing={isProcessing}
+        isSuccess={status.statusType === 'success'}
         closeDrawer={() => setIsDrawerOpen(false)}
         onSave={onSave}
       />
@@ -102,15 +106,28 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
                 key={item.id}
                 title={item.title}
                 description={item.description}
+                numberOfItems={item.numberOfItems}
                 complete={item.isComplete}
-                onToggleComplete={() => console.log('toggled')}
-                onEdit={() => console.log('on edit clicked')}
+                isProcessing={isProcessing}
+                onToggleComplete={handleToggleComplete}
+                onEdit={handleEditItem}
                 onDelete={id => onDelete(id)}
               />
             ))}
           </List>
         </>
       );
+    }
+  }
+
+  function handleEditItem(item) {
+    setSelectedItem(item);
+    setIsDrawerOpen(true);
+  }
+
+  function handleToggleComplete(item) {
+    if (onSave) {
+      onSave(item);
     }
   }
 };

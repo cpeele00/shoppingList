@@ -25,6 +25,32 @@ export const addItemMutation = async item => {
   return result;
 };
 
+export const updateItemMutation = async item => {
+  const mutation = `
+    mutation UpdateItemMutation($updateItemId: ID!, $updateItemInput: UpdateItemInput) {
+      updateItem(id: $updateItemId, input: $updateItemInput) {
+        id
+        title
+        description
+        numberOfItems
+        isComplete
+      }
+    }
+  `;
+
+  const mutationData = {
+    query: mutation,
+    variables: {
+      updateItemId: item.id,
+      updateItemInput: item,
+    },
+  };
+
+  const result = await fetcher(mutationData);
+
+  return result;
+};
+
 export const deleteItemMutation = async id => {
   const mutation = `
     mutation Mutation($deleteItemId: ID!) {

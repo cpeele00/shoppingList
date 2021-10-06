@@ -32,7 +32,12 @@ const ShoppingListContainer = () => {
   );
 
   function handleOnSave(item) {
-    dispatch(actions.saveItem(item));
+    console.log('hit');
+    if (item.id) {
+      dispatch(actions.updateItem(item));
+    } else {
+      dispatch(actions.saveItem(item));
+    }
   }
 
   function handleOnDelete(id) {

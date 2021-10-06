@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { IconButton } from '../../../../common/components';
@@ -14,31 +14,46 @@ import { useForm, Controller } from 'react-hook-form';
 import * as styles from './styles';
 
 type ItemDrawerPropsType = {
+  item?: any;
   isOpen: boolean;
   isProcessing: boolean;
+  isSuccess: boolean;
   closeDrawer: Function;
   onSave: Function;
 };
 
 export const ItemDrawer: FC<ItemDrawerPropsType> = ({
+  item,
   isOpen,
   isProcessing,
+  isSuccess,
   closeDrawer,
   onSave,
 }) => {
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  // I hate that prettier did this
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
+    reset,
     control,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      title: 'milk',
-      description: 'go get sum milk',
-      numberOfItems: 3,
-    },
-  });
+  } = useForm();
+
+  useEffect(() => {
+    setIsEditMode(!!item);
+    setValue('title', item?.title);
+    setValue('description', item?.description);
+    setValue('numberOfItems', item?.numberOfItems);
+  }, [item]);
+
+  useEffect(() => {
+    if (!isProcessing && isSuccess) {
+      resetForm();
+    }
+  }, [isProcessing, isSuccess]);
 
   return (
     <Drawer anchor={'right'} open={isOpen} onClose={() => console.log('on close')}>
@@ -64,7 +79,7 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
             Icon={LastPageIcon}
             aria-label='Close drawer'
             title='Close drawer'
-            onClick={() => closeDrawer()}
+            onClick={handleDrawerClose}
           />
         </header>
 
@@ -80,8 +95,10 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
             css={{
               justifyContent: 'normal',
             }}>
-            <FormHeader>Add an Item</FormHeader>
-            <FormSubHeader>Add your new item below</FormSubHeader>
+            <FormHeader>{`${isEditMode ? 'Edit' : 'Add'} an Item`}</FormHeader>
+            <FormSubHeader>
+              {`${isEditMode ? 'Edit your item below' : 'Add your new item below'}`}
+            </FormSubHeader>
 
             <TextField
               id='outlined-basic'
@@ -131,7 +148,7 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
               justifySelf: 'flex-end',
             }}>
             <Button
-              onClick={() => closeDrawer()}
+              onClick={handleDrawerClose}
               css={{
                 marginRight: 15,
               }}>
@@ -142,7 +159,7 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
               isProcessing={isProcessing}
               disabled={isProcessing}
               onClick={handleSubmit(saveTask)}>
-              <>Add Task</>
+              <>{`${isEditMode ? 'Save task' : 'Add task'}`}</>
             </FormButton>
           </div>
         </main>
@@ -150,9 +167,26 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
     </Drawer>
   );
 
-  function saveTask(item) {
+  function saveTask(itemToSave) {
     if (onSave) {
-      onSave(item);
+      onSave({ ...itemToSave, id: item?.id });
     }
+  }
+
+  function handleDrawerClose() {
+    resetForm();
+
+    if (closeDrawer) {
+      closeDrawer();
+    }
+  }
+
+  function resetForm() {
+    setIsEditMode(false);
+    reset({
+      title: '',
+      description: '',
+      numberOfItems: '',
+    });
   }
 };

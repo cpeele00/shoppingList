@@ -15,13 +15,21 @@ const typeDefs = gql`
     isComplete: Boolean
   }
 
+  input UpdateItemInput {
+    id: String
+    title: String
+    description: String
+    numberOfItems: Int
+    isComplete: Boolean
+  }
+
   type Query {
     items: [Item!]!
   }
 
   type Mutation {
     addItem(input: ItemInput): Item
-    updateItem(id: ID!, input: ItemInput): Item
+    updateItem(id: ID!, input: UpdateItemInput): Item
     deleteItem(id: ID!): Item
   }
 
@@ -46,13 +54,20 @@ const resolvers = {
       return prisma.item.create({ data: item });
     },
 
-    updateItem: (parent, args, context, info) =>
-      prisma.item.update({
+    updateItem: (parent, args, context, info) => {
+      return prisma.item.update({
         where: {
           id: parseInt(args.id),
         },
-        data: args.input,
-      }),
+        data: {
+          id: parseInt(args.input.id),
+          title: args.input.title,
+          description: args.input.description,
+          numberOfItems: args.input.numberOfItems,
+          isComplete: args.input.isComplete,
+        },
+      });
+    },
     deleteItem: (parent, args, context, info) => {
       return prisma.item.delete({
         where: {

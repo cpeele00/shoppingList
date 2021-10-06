@@ -2,7 +2,11 @@ import { call, put } from 'redux-saga/effects';
 import { getAllItemsQuery } from '../../../common/queries/items.query';
 import { actions } from './shoppingList.actions';
 import { actions as uiActions } from '../../../common/app/state/ui/ui.actions';
-import { addItemMutation, deleteItemMutation } from '../../../common/mutations/items.mutation';
+import {
+  addItemMutation,
+  deleteItemMutation,
+  updateItemMutation,
+} from '../../../common/mutations/items.mutation';
 
 export function* getAllItemsHandler() {
   try {
@@ -36,6 +40,27 @@ export function* addItemHandler({ type, payload }) {
   } catch (err) {
     console.log('error: ', err);
     yield put(uiActions.status('error', 'An error occurred attempting to add item'));
+  } finally {
+    yield put(uiActions.isProcessing(false));
+  }
+}
+
+export function* updateItemHandler({ type, payload }) {
+  try {
+    yield put(uiActions.isProcessing(true));
+
+    const result = yield call(updateItemMutation, payload);
+    const updatedItem = result?.data.updateItem;
+
+    if (updatedItem) {
+      yield put(actions.editItem(updatedItem));
+      yield put(uiActions.status('success', 'Item successfully updated'));
+    } else {
+      yield put(uiActions.status('error', 'There was an issue with updating an item'));
+    }
+  } catch (err) {
+    console.log('error: ', err);
+    yield put(uiActions.status('error', 'An error occurred attempting to update an item'));
   } finally {
     yield put(uiActions.isProcessing(false));
   }
