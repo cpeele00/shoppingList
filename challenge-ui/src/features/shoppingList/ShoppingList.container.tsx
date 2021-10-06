@@ -1,27 +1,32 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { types as itemsTypes } from './state/shoppingList.actions';
+import { types as itemsTypes, actions } from './state/shoppingList.actions';
 import { ShoppingList } from './ShoppingList';
 import { Spinner } from '../../common/components';
 
 const ShoppingListContainer = () => {
   const dispatch = useDispatch();
   const items = useSelector((state: any) => state.items);
-  const isLoading = useSelector((state: any) => state.isLoading);
+  const isLoading = useSelector((state: any) => state.ui.isLoading);
+  const status = useSelector((state: any) => state.ui.status);
 
   useEffect(() => {
-    dispatch({ type: itemsTypes.GET_ITEMS });
+    dispatch(actions.getItems());
   }, [dispatch]);
 
-  /* 
-    I prefer this style, but prettier had other plans :-)
-      {
-        isLoading 
-          ? <Spinner /> 
-          : <ShoppingList items={items} />
-      }
-  */
-  return <>{isLoading ? <Spinner /> : <ShoppingList items={items} />}</>;
+  return (
+    <>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <ShoppingList items={items} onSave={handleOnSave} status={status} />
+      )}
+    </>
+  );
+
+  function handleOnSave(item) {
+    dispatch(actions.saveItem(item));
+  }
 };
 
 export default ShoppingListContainer;

@@ -8,26 +8,27 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const typeDefs = gql`
+  input ItemInput {
+    title: String
+    description: String
+    numberOfItems: Int
+    isComplete: Boolean
+  }
+
   type Query {
     items: [Item!]!
   }
 
   type Mutation {
+    addItem(input: ItemInput): Item
+    updateItem(id: ID!, input: ItemInput): Item
     deleteItem(id: ID!): Item
-    addItem(title: String!, description: String!, numberOfItems: Int!, isComplete: Boolean): Item
-    updateItem(
-      id: ID!
-      title: String!
-      description: String!
-      numberOfItems: Int!
-      isComplete: Boolean
-    ): Item
   }
 
   type Item {
     id: ID!
-    title: String
-    description: String
+    title: String!
+    description: String!
     numberOfItems: Int
     isComplete: Boolean
   }
@@ -38,27 +39,19 @@ const resolvers = {
     items: () => prisma.item.findMany(),
   },
   Mutation: {
-    addItem: (parent, args, context, info) =>
-      prisma.item.create({
-        data: {
-          title: args.title,
-          description: args.description,
-          numberOfItems: args.numberOfItems,
-          isComplete: args.isComplete,
-        },
-      }),
+    addItem: (parent, args, context, info) => {
+      const item = args.input;
+      item.isComplete = false;
+
+      return prisma.item.create({ data: item });
+    },
 
     updateItem: (parent, args, context, info) =>
       prisma.item.update({
         where: {
           id: parseInt(args.id),
         },
-        data: {
-          title: args.title,
-          description: args.description,
-          numberOfItems: args.numberOfItems,
-          isComplete: args.isComplete,
-        },
+        data: args.input,
       }),
     deleteItem: (parent, args, context, info) =>
       prisma.item.delete({
@@ -91,3 +84,5 @@ async function startApolloServer(typeDefs, resolvers) {
 }
 
 startApolloServer(typeDefs, resolvers);
+
+// addItem(input: ItemInput): Item

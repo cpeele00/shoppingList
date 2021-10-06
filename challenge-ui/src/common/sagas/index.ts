@@ -1,1 +1,1 @@
-export { getItemsWatcherSaga } from './getItemsWatcher.saga';
+export { getItemsWatcherSaga, addItemWatcherSaga } from './itemsWatcher.saga';

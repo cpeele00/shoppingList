@@ -15,9 +15,10 @@ import * as styles from './styles';
 type ItemDrawerPropsType = {
   isOpen: boolean;
   closeDrawer: Function;
+  onSave: Function;
 };
 
-export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer }) => {
+export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer, onSave }) => {
   const {
     register,
     handleSubmit,
@@ -26,9 +27,9 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer }) => 
     formState: { errors },
   } = useForm({
     defaultValues: {
-      itemName: 'milk',
-      itemDescription: 'go get sum milk',
-      itemCount: 3,
+      title: 'milk',
+      description: 'go get sum milk',
+      numberOfItems: 3,
     },
   });
 
@@ -59,6 +60,7 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer }) => 
             onClick={() => closeDrawer()}
           />
         </header>
+
         <main
           css={{
             padding: '30px',
@@ -79,7 +81,7 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer }) => 
               id='outlined-basic'
               label='Item Name'
               variant='outlined'
-              {...register('itemName')}
+              {...register('title')}
               css={{
                 width: '100%',
               }}
@@ -90,7 +92,7 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer }) => 
               label='Item Description'
               multiline
               rows={4}
-              {...register('itemDescription')}
+              {...register('description')}
               css={{ width: '100%', marginTop: '18px' }}
             />
 
@@ -101,7 +103,7 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer }) => 
               }}>
               <InputLabel id='demo-simple-select-label'>How many?</InputLabel>
               <Controller
-                name='itemCount'
+                name='numberOfItems'
                 control={control}
                 render={({ field }) => (
                   <Select
@@ -138,7 +140,9 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer }) => 
     </Drawer>
   );
 
-  function saveTask(data) {
-    console.log(data);
+  function saveTask(item) {
+    if (onSave) {
+      onSave(item);
+    }
   }
 };
