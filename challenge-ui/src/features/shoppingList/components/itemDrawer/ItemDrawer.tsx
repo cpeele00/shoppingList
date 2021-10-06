@@ -56,24 +56,10 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
   }, [isProcessing, isSuccess]);
 
   return (
-    <Drawer anchor={'right'} open={isOpen} onClose={() => console.log('on close')}>
+    <Drawer anchor={'right'} open={isOpen} onClose={handleDrawerClose}>
       <div css={styles.itemDrawer}>
-        <header
-          css={{
-            background: '#fafafa',
-            color: '#5C6269',
-            padding: '20px 30px 21px 30px',
-            boxSizing: 'border-box',
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}>
-          <h1
-            css={{
-              marginTop: 0,
-              marginBottom: 0,
-            }}>
-            SHOPPING LIST
-          </h1>
+        <header css={styles.drawerHeader}>
+          <h1 css={styles.drawerHeaderTitle}>SHOPPING LIST</h1>
           <IconButton
             automationId={'itemdrawer-close-drawer-id'}
             Icon={LastPageIcon}
@@ -83,18 +69,8 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
           />
         </header>
 
-        <main
-          css={{
-            padding: '30px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            height: 'calc(100vh - 72px)',
-          }}>
-          <div
-            css={{
-              justifyContent: 'normal',
-            }}>
+        <main css={styles.drawerContent}>
+          <div css={styles.drawerContentLayout}>
             <FormHeader>{`${isEditMode ? 'Edit' : 'Add'} an Item`}</FormHeader>
             <FormSubHeader>
               {`${isEditMode ? 'Edit your item below' : 'Add your new item below'}`}
@@ -142,11 +118,7 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
               />
             </FormControl>
           </div>
-          <div
-            css={{
-              alignSelf: 'flex-end',
-              justifySelf: 'flex-end',
-            }}>
+          <div css={styles.drawerButtonLayout}>
             <Button
               onClick={handleDrawerClose}
               css={{

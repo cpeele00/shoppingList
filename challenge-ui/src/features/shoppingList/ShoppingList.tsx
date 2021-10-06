@@ -5,6 +5,7 @@ import { EmptyState } from '../../common/components';
 import { List } from './components';
 import { ItemDrawer } from './components';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import * as styles from './styles';
 
 type ShoppingListPropTypes = {
   items: any[];
@@ -46,15 +47,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
         onClose={() => setShowSnackbar(false)}
         message='test'
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <div
-          css={{
-            width: '350px',
-            padding: '15px',
-            color: '#fff',
-            borderRadius: '4px',
-            backgroundColor: '#30b937',
-            display: 'flex',
-          }}>
+        <div css={styles.snackBar}>
           <CheckCircleOutlineIcon css={{ marginRight: '10px' }} />
           {status.message}
         </div>
@@ -91,7 +84,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
     if (items?.length > 0) {
       return (
         <>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div css={styles.actionArea}>
             <h2>Your Items</h2>
             <div>
               <Button size='medium' variant='contained' onClick={() => setIsDrawerOpen(true)}>
