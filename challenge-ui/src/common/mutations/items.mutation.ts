@@ -25,10 +25,23 @@ export const addItemMutation = async item => {
   return result;
 };
 
-// const mutation = `
-//   mutation AddItemMutation($addItemInput: ItemInput) {
-//     addItem(input: $addItemInput) {
-//       id
-//     }
-//   }
-// `;
+export const deleteItemMutation = async id => {
+  const mutation = `
+    mutation Mutation($deleteItemId: ID!) {
+     deleteItem(id: $deleteItemId) {
+        id
+      }
+    }
+  `;
+
+  const mutationData = {
+    query: mutation,
+    variables: {
+      deleteItemId: id,
+    },
+  };
+
+  const result = await fetcher(mutationData);
+
+  return result;
+};

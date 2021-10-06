@@ -6,6 +6,7 @@ import { IconButton } from '../../../../common/components';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 
 type ListItemPropsType = {
+  id?: number;
   title: string;
   description: string;
   complete: boolean;
@@ -15,6 +16,7 @@ type ListItemPropsType = {
 };
 
 export const ListItem: FC<ListItemPropsType> = ({
+  id,
   title,
   description,
   complete,
@@ -80,7 +82,7 @@ export const ListItem: FC<ListItemPropsType> = ({
 
   function handleOnDeleteClick() {
     if (onDelete) {
-      onDelete();
+      onDelete(id);
     }
   }
 };

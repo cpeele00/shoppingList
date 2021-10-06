@@ -3,11 +3,17 @@ import { types } from './shoppingList.actions';
 const initialState = [];
 
 export const itemsReducer = (state = initialState, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case types.SET_ITEMS:
-      return [...state, ...action.payload];
+      return [...state, ...payload];
     case types.ADD_ITEM:
       return [action.payload, ...state];
+    case types.REMOVE_ITEM: {
+      const filteredItems = state.filter(item => item.id !== payload.deleteItem.id);
+      return filteredItems;
+    }
     default:
       return state;
   }

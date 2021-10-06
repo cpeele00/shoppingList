@@ -2,18 +2,16 @@ import { call, put } from 'redux-saga/effects';
 import { getAllItemsQuery } from '../../../common/queries/items.query';
 import { actions } from './shoppingList.actions';
 import { actions as uiActions } from '../../../common/app/state/ui/ui.actions';
-import { addItemMutation } from '../../../common/mutations/items.mutation';
+import { addItemMutation, deleteItemMutation } from '../../../common/mutations/items.mutation';
 
 export function* getAllItemsHandler() {
   try {
     yield put(uiActions.isLoading(true));
 
     const result = yield call(getAllItemsQuery);
-
     const items = result?.data?.items;
 
     yield put(actions.setItems(items));
-    // yield put(uiActions.status('success', 'Items successfully retrieved'));
   } catch (err) {
     console.log('error: ', err);
     yield put(uiActions.status('error', 'An error occurred attempting get items'));
@@ -22,11 +20,11 @@ export function* getAllItemsHandler() {
   }
 }
 
-export function* addItemHandler(item) {
+export function* addItemHandler({ type, payload }) {
   try {
     yield put(uiActions.isProcessing(true));
 
-    const result = yield call(addItemMutation, item.payload);
+    const result = yield call(addItemMutation, payload);
     const newItem = result?.data.addItem;
 
     if (newItem) {
@@ -38,6 +36,26 @@ export function* addItemHandler(item) {
   } catch (err) {
     console.log('error: ', err);
     yield put(uiActions.status('error', 'An error occurred attempting to add item'));
+  } finally {
+    yield put(uiActions.isProcessing(false));
+  }
+}
+
+export function* deleteItemHander({ type, payload }) {
+  try {
+    yield put(uiActions.isProcessing(true));
+
+    const result = yield call(deleteItemMutation, payload);
+
+    if (result?.data) {
+      yield put(actions.removeItem(result?.data));
+      yield put(uiActions.status('success', 'Item successfully deleted'));
+    } else {
+      yield put(uiActions.status('error', 'There was an issue with deleting an item'));
+    }
+  } catch (err) {
+    console.log('error: ', err);
+    yield put(uiActions.status('error', 'An error occurred attempting to delete an item'));
   } finally {
     yield put(uiActions.isProcessing(false));
   }

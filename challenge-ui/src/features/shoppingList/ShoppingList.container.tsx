@@ -25,6 +25,7 @@ const ShoppingListContainer = () => {
           isProcessing={isProcessing}
           status={status}
           onSave={handleOnSave}
+          onDelete={handleOnDelete}
         />
       )}
     </>
@@ -32,6 +33,10 @@ const ShoppingListContainer = () => {
 
   function handleOnSave(item) {
     dispatch(actions.saveItem(item));
+  }
+
+  function handleOnDelete(id) {
+    dispatch(actions.deleteItem(id));
   }
 };
 

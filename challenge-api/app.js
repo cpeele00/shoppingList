@@ -53,12 +53,13 @@ const resolvers = {
         },
         data: args.input,
       }),
-    deleteItem: (parent, args, context, info) =>
-      prisma.item.delete({
+    deleteItem: (parent, args, context, info) => {
+      return prisma.item.delete({
         where: {
           id: parseInt(args.id),
         },
-      }),
+      });
+    },
   },
 };
 

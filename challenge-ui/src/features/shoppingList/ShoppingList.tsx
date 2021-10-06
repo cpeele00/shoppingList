@@ -11,13 +11,15 @@ type ShoppingListPropTypes = {
   isProcessing: boolean;
   status: any;
   onSave: Function;
+  onDelete: Function;
 };
 
 export const ShoppingList: FC<ShoppingListPropTypes> = ({
   items,
   isProcessing,
-  onSave,
   status,
+  onSave,
+  onDelete,
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -96,13 +98,14 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
           <List>
             {items?.map(item => (
               <List.Item
+                id={item.id}
                 key={item.id}
                 title={item.title}
                 description={item.description}
                 complete={item.isComplete}
                 onToggleComplete={() => console.log('toggled')}
                 onEdit={() => console.log('on edit clicked')}
-                onDelete={() => console.log('on delete clicked')}
+                onDelete={id => onDelete(id)}
               />
             ))}
           </List>
