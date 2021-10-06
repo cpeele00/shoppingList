@@ -16,7 +16,6 @@
   "author": "chris peele",
   "license": "ISC",
   "dependencies": {
-    "@softwareventures/yarn-recursive": "^4.0.10",
     "concurrently": "^6.3.0",
     "cross-env": "^7.0.3",
     "fs-extra": "^10.0.0"
