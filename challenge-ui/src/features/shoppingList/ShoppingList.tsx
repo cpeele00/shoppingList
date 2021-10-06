@@ -8,11 +8,17 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 type ShoppingListPropTypes = {
   items: any[];
+  isProcessing: boolean;
   status: any;
   onSave: Function;
 };
 
-export const ShoppingList: FC<ShoppingListPropTypes> = ({ items, onSave, status }) => {
+export const ShoppingList: FC<ShoppingListPropTypes> = ({
+  items,
+  isProcessing,
+  onSave,
+  status,
+}) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
 
@@ -51,6 +57,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({ items, onSave, status 
       </Snackbar>
       <ItemDrawer
         isOpen={isDrawerOpen}
+        isProcessing={isProcessing}
         closeDrawer={() => setIsDrawerOpen(false)}
         onSave={onSave}
       />

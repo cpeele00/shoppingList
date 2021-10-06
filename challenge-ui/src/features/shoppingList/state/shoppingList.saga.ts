@@ -10,9 +10,9 @@ export function* getAllItemsHandler() {
 
     const result = yield call(getAllItemsQuery);
 
-    console.log(result?.data?.items);
+    const items = result?.data?.items;
 
-    yield put(actions.setItems(result?.data?.items));
+    yield put(actions.setItems(items));
     // yield put(uiActions.status('success', 'Items successfully retrieved'));
   } catch (err) {
     console.log('error: ', err);
@@ -24,18 +24,21 @@ export function* getAllItemsHandler() {
 
 export function* addItemHandler(item) {
   try {
-    yield put(uiActions.isLoading(true));
+    yield put(uiActions.isProcessing(true));
 
     const result = yield call(addItemMutation, item.payload);
+    const newItem = result?.data.addItem;
 
-    console.log('add item result: ', result);
-
-    yield put(actions.addItem(result?.data?.addItem));
-    yield put(uiActions.status('success', 'Item successfully added'));
+    if (newItem) {
+      yield put(actions.addItem(newItem));
+      yield put(uiActions.status('success', 'Item successfully added'));
+    } else {
+      yield put(uiActions.status('error', 'There was an issue with adding an item'));
+    }
   } catch (err) {
     console.log('error: ', err);
     yield put(uiActions.status('error', 'An error occurred attempting to add item'));
   } finally {
-    yield put(uiActions.isLoading(false));
+    yield put(uiActions.isProcessing(false));
   }
 }

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { IconButton } from '../../../../common/components';
@@ -9,16 +9,23 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
+import { FormButton } from '../../../../common/components';
 import { useForm, Controller } from 'react-hook-form';
 import * as styles from './styles';
 
 type ItemDrawerPropsType = {
   isOpen: boolean;
+  isProcessing: boolean;
   closeDrawer: Function;
   onSave: Function;
 };
 
-export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer, onSave }) => {
+export const ItemDrawer: FC<ItemDrawerPropsType> = ({
+  isOpen,
+  isProcessing,
+  closeDrawer,
+  onSave,
+}) => {
   const {
     register,
     handleSubmit,
@@ -69,7 +76,6 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer, onSav
             justifyContent: 'space-between',
             height: 'calc(100vh - 72px)',
           }}>
-          {/* <form> */}
           <div
             css={{
               justifyContent: 'normal',
@@ -131,9 +137,13 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({ isOpen, closeDrawer, onSav
               }}>
               Cancel
             </Button>
-            <Button variant='contained' onClick={handleSubmit(saveTask)}>
-              Add task
-            </Button>
+            <FormButton
+              variant='contained'
+              isProcessing={isProcessing}
+              disabled={isProcessing}
+              onClick={handleSubmit(saveTask)}>
+              <>Add Task</>
+            </FormButton>
           </div>
         </main>
       </div>
