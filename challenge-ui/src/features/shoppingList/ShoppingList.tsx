@@ -42,40 +42,9 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
     <>
       {renderZeroState()}
       {renderShoppingListItems()}
-
-      <Snackbar
-        open={showSnackbar}
-        autoHideDuration={3000}
-        onClose={() => setShowSnackbar(false)}
-        message='test'
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <div css={styles.snackBar}>
-          <CheckCircleOutlineIcon css={{ marginRight: '10px' }} />
-          {status.message}
-        </div>
-      </Snackbar>
-      <ItemDrawer
-        item={selectedItem}
-        isOpen={isDrawerOpen}
-        isProcessing={isProcessing}
-        isSuccess={status.statusType === 'success'}
-        closeDrawer={() => setIsDrawerOpen(false)}
-        onSave={onSave}
-      />
-
-      <Modal
-        title='Delete Item?'
-        contentText='Are you sure you want to delete this item? This cannot be undone.'
-        isOpen={isModalOpen}
-        ActionArea={() => (
-          <>
-            <SecondaryButton onClick={handleModalCancel}>Cancel</SecondaryButton>
-            <PrimaryButton variant='contained' onClick={handleOnDeleteItem}>
-              Delete
-            </PrimaryButton>
-          </>
-        )}
-      />
+      {renderSnackbar()}
+      {renderDrawer()}
+      {renderModal()}
     </>
   );
 
@@ -131,6 +100,53 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
         </>
       );
     }
+  }
+
+  function renderSnackbar() {
+    return (
+      <Snackbar
+        open={showSnackbar}
+        autoHideDuration={3000}
+        onClose={() => setShowSnackbar(false)}
+        message='test'
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <div css={styles.snackBar}>
+          <CheckCircleOutlineIcon css={{ marginRight: '10px' }} />
+          {status.message}
+        </div>
+      </Snackbar>
+    );
+  }
+
+  function renderDrawer() {
+    return (
+      <ItemDrawer
+        item={selectedItem}
+        isOpen={isDrawerOpen}
+        isProcessing={isProcessing}
+        isSuccess={status.statusType === 'success'}
+        closeDrawer={() => setIsDrawerOpen(false)}
+        onSave={onSave}
+      />
+    );
+  }
+
+  function renderModal() {
+    return (
+      <Modal
+        title='Delete Item?'
+        contentText='Are you sure you want to delete this item? This cannot be undone.'
+        isOpen={isModalOpen}
+        ActionArea={() => (
+          <>
+            <SecondaryButton onClick={handleModalCancel}>Cancel</SecondaryButton>
+            <PrimaryButton variant='contained' onClick={handleOnDeleteItem}>
+              Delete
+            </PrimaryButton>
+          </>
+        )}
+      />
+    );
   }
 
   function handleEditItem(item) {
