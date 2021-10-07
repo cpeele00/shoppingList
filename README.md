@@ -12,7 +12,7 @@ I've verified that this installs and runs fine on both Windows and MacOS environ
 
 ## Please Note
 
-I wanted to include more in the sample project but unfortunately time was limited. A couple of the things that I didn't get to were: "Form validation" and "refactoring the Graphql TypeDefs and Resolvers into their own respective files for maintainabilty". Maybe later...
+I wanted to include more in the sample project but unfortunately time was limited due to a tight project deadline at work. A couple of the things that I didn't get to were: "Form validation" and "refactoring the Graphql TypeDefs and Resolvers into their own respective files for maintainabilty". I would have also like to have added a lot more unit tests and also Cypress automation tests. Maybe later...
 
 This is not a full fledge Full-stack demo app. It's primarily meant to be a Front-end demo app. I did however throw together a quick Node Express backend with Apollo-Server GraphQL and Prisma ORM. The backend is not meant to be an example for best practices or for production quality.
 
