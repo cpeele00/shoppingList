@@ -7,6 +7,7 @@ import {
   deleteItemMutation,
   updateItemMutation,
 } from '../../../common/mutations/items.mutation';
+import { statusType } from '../../../common/constants/statusType.constants';
 
 export function* getAllItemsHandler() {
   try {
@@ -17,8 +18,7 @@ export function* getAllItemsHandler() {
 
     yield put(actions.setItems(items));
   } catch (err) {
-    console.log('error: ', err);
-    yield put(uiActions.status('error', 'An error occurred attempting get items'));
+    yield put(uiActions.status(statusType.error, 'An error occurred attempting get items'));
   } finally {
     yield put(uiActions.isLoading(false));
   }
@@ -33,13 +33,12 @@ export function* addItemHandler({ type, payload }) {
 
     if (newItem) {
       yield put(actions.addItem(newItem));
-      yield put(uiActions.status('success', 'Item successfully added'));
+      yield put(uiActions.status(statusType.success, 'Item successfully added'));
     } else {
       yield put(uiActions.status('error', 'There was an issue with adding an item'));
     }
   } catch (err) {
-    console.log('error: ', err);
-    yield put(uiActions.status('error', 'An error occurred attempting to add item'));
+    yield put(uiActions.status(statusType.error, 'An error occurred attempting to add item'));
   } finally {
     yield put(uiActions.isProcessing(false));
   }
@@ -54,13 +53,12 @@ export function* updateItemHandler({ type, payload }) {
 
     if (updatedItem) {
       yield put(actions.editItem(updatedItem));
-      yield put(uiActions.status('success', 'Item successfully updated'));
+      yield put(uiActions.status(statusType.success, 'Item successfully updated'));
     } else {
-      yield put(uiActions.status('error', 'There was an issue with updating an item'));
+      yield put(uiActions.status(statusType.error, 'There was an issue with updating an item'));
     }
   } catch (err) {
-    console.log('error: ', err);
-    yield put(uiActions.status('error', 'An error occurred attempting to update an item'));
+    yield put(uiActions.status(statusType.error, 'An error occurred attempting to update an item'));
   } finally {
     yield put(uiActions.isProcessing(false));
   }
@@ -74,13 +72,12 @@ export function* deleteItemHander({ type, payload }) {
 
     if (result?.data) {
       yield put(actions.removeItem(result?.data));
-      yield put(uiActions.status('success', 'Item successfully deleted'));
+      yield put(uiActions.status(statusType.success, 'Item successfully deleted'));
     } else {
-      yield put(uiActions.status('error', 'There was an issue with deleting an item'));
+      yield put(uiActions.status(statusType.error, 'There was an issue with deleting an item'));
     }
   } catch (err) {
-    console.log('error: ', err);
-    yield put(uiActions.status('error', 'An error occurred attempting to delete an item'));
+    yield put(uiActions.status(statusType.error, 'An error occurred attempting to delete an item'));
   } finally {
     yield put(uiActions.isProcessing(false));
   }

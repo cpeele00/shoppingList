@@ -7,6 +7,7 @@ import { ItemDrawer } from './components';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Item } from '../../common/types/item.type';
 import * as styles from './styles';
+import { statusType } from '../../common/constants/statusType.constants';
 
 type ShoppingListPropTypes = {
   items: any[];
@@ -31,7 +32,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
   useEffect(() => {
     if (!status) return;
 
-    if (status.statusType === 'success') {
+    if (status.statusType === statusType.success) {
       setShowSnackbar(true);
       setIsDrawerOpen(false);
       setSelectedItem(null);
@@ -119,7 +120,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
         item={selectedItem}
         isOpen={isDrawerOpen}
         isProcessing={isProcessing}
-        isSuccess={status.statusType === 'success'}
+        isSuccess={status.statusType === statusType.success}
         closeDrawer={() => setIsDrawerOpen(false)}
         onSave={onSave}
       />
