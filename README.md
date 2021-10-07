@@ -28,6 +28,7 @@ This is not a full fledge Full-stack demo app. It's primarily meant to be a Fron
 - Redux (with Dev tools enabled)
 - Redux-Saga
 - TypeScript
+- React Hook Form
 - Emotion CSS
 - Material-UI
 - NodeJS
