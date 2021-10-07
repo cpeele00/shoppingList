@@ -1,10 +1,11 @@
 import React, { FC, useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
-import { EmptyState } from '../../common/components';
+import { EmptyState, Modal, PrimaryButton, SecondaryButton } from '../../common/components';
 import { List } from './components';
 import { ItemDrawer } from './components';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { Item } from '../../common/types/item.type';
 import * as styles from './styles';
 
 type ShoppingListPropTypes = {
@@ -23,8 +24,9 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
   onDelete,
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
   useEffect(() => {
     if (!status) return;
@@ -43,7 +45,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
 
       <Snackbar
         open={showSnackbar}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={() => setShowSnackbar(false)}
         message='test'
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
@@ -60,6 +62,20 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
         closeDrawer={() => setIsDrawerOpen(false)}
         onSave={onSave}
       />
+
+      <Modal
+        title='Delete Item?'
+        contentText='Are you sure you want to delete this item? This cannot be undone.'
+        isOpen={isModalOpen}
+        ActionArea={() => (
+          <>
+            <SecondaryButton onClick={handleModalCancel}>Cancel</SecondaryButton>
+            <PrimaryButton variant='contained' onClick={handleOnDeleteItem}>
+              Delete
+            </PrimaryButton>
+          </>
+        )}
+      />
     </>
   );
 
@@ -68,7 +84,12 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
       return (
         <EmptyState>
           <>
-            <p>Your shopping list is empty :(</p>
+            <h2
+              css={{
+                color: '#87898C',
+              }}>
+              Your shopping list is empty :(
+            </h2>
             <div>
               <Button variant='contained' onClick={() => setIsDrawerOpen(true)}>
                 Add your first item
@@ -85,26 +106,25 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
       return (
         <>
           <div css={styles.actionArea}>
-            <h2>Your Items</h2>
+            <h2 css={styles.heading}>Your Items</h2>
             <div>
-              <Button size='medium' variant='contained' onClick={() => setIsDrawerOpen(true)}>
+              <PrimaryButton
+                size='medium'
+                variant='contained'
+                onClick={() => setIsDrawerOpen(true)}>
                 Add Item
-              </Button>
+              </PrimaryButton>
             </div>
           </div>
           <List>
             {items?.map(item => (
               <List.Item
-                id={item.id}
+                item={item}
                 key={item.id}
-                title={item.title}
-                description={item.description}
-                numberOfItems={item.numberOfItems}
-                complete={item.isComplete}
                 isProcessing={isProcessing}
                 onToggleComplete={handleToggleComplete}
                 onEdit={handleEditItem}
-                onDelete={id => onDelete(id)}
+                onDelete={handleDeleteItemRequest}
               />
             ))}
           </List>
@@ -122,5 +142,27 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
     if (onSave) {
       onSave(item);
     }
+  }
+
+  function handleDeleteItemRequest(item) {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  }
+
+  function handleOnDeleteItem() {
+    resetModal();
+
+    if (onDelete) {
+      onDelete(selectedItem?.id);
+    }
+  }
+
+  function handleModalCancel() {
+    resetModal();
+  }
+
+  function resetModal() {
+    setIsModalOpen(false);
+    setSelectedItem(null);
   }
 };

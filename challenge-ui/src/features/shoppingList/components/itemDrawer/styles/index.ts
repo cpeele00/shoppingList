@@ -21,11 +21,12 @@ export const drawerHeaderTitle = css({
 });
 
 export const drawerContent = css({
-  padding: '30px',
+  padding: '30px 30px 21px 30px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
   height: 'calc(100vh - 72px)',
+  borderBottom: '10px solid #4D81B7',
 });
 
 export const drawerContentLayout = css({

@@ -33,6 +33,7 @@ export const listItemTitle = (isComplete: boolean) =>
     marginBottom: 0,
     color: `${isComplete ? '#4D81B7;' : '#000'}`,
     textDecoration: `${isComplete ? 'line-through' : 'none'}`,
+    wordBreak: 'break-word',
   });
 
 export const listItemDescription = (isComplete: boolean) =>
@@ -41,6 +42,7 @@ export const listItemDescription = (isComplete: boolean) =>
     marginBottom: 0,
     color: '#7D7A7A',
     textDecoration: `${isComplete ? 'line-through' : 'none'}`,
+    wordBreak: 'break-word',
   });
 
 export const listItemMeta = css({

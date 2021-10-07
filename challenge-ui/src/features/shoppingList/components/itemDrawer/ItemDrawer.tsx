@@ -8,13 +8,13 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Button from '@mui/material/Button';
-import { FormButton } from '../../../../common/components';
+import { PrimaryButton, SecondaryButton } from '../../../../common/components';
 import { useForm, Controller } from 'react-hook-form';
+import { Item } from '../../../../common/types/item.type';
 import * as styles from './styles';
 
 type ItemDrawerPropsType = {
-  item?: any;
+  item?: Item | null;
   isOpen: boolean;
   isProcessing: boolean;
   isSuccess: boolean;
@@ -31,16 +31,7 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
   onSave,
 }) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  // I hate that prettier did this
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    reset,
-    control,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, setValue, reset, control } = useForm();
 
   useEffect(() => {
     setIsEditMode(!!item);
@@ -80,6 +71,9 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
               id='outlined-basic'
               label='Item Name'
               variant='outlined'
+              inputProps={{
+                maxLength: 50,
+              }}
               {...register('title')}
               css={{
                 width: '100%',
@@ -91,6 +85,9 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
               label='Item Description'
               multiline
               rows={4}
+              inputProps={{
+                maxLength: 250,
+              }}
               {...register('description')}
               css={{ width: '100%', marginTop: '18px' }}
             />
@@ -119,20 +116,14 @@ export const ItemDrawer: FC<ItemDrawerPropsType> = ({
             </FormControl>
           </div>
           <div css={styles.drawerButtonLayout}>
-            <Button
-              onClick={handleDrawerClose}
-              css={{
-                marginRight: 15,
-              }}>
-              Cancel
-            </Button>
-            <FormButton
+            <SecondaryButton onClick={handleDrawerClose}>Cancel</SecondaryButton>
+            <PrimaryButton
               variant='contained'
               isProcessing={isProcessing}
               disabled={isProcessing}
               onClick={handleSubmit(saveTask)}>
               <>{`${isEditMode ? 'Save task' : 'Add task'}`}</>
-            </FormButton>
+            </PrimaryButton>
           </div>
         </main>
       </div>

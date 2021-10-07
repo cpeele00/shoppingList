@@ -15,7 +15,6 @@ export const itemsReducer = (state = initialState, action) => {
       return filteredItems;
     }
     case types.EDIT_ITEM: {
-      console.log(payload);
       return state.map(item => {
         if (item.id === payload.id) {
           return {

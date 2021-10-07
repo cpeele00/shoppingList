@@ -5,13 +5,10 @@ import { IconButton } from '../../../../common/components';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
 import * as styles from './styles';
+import { Item } from '../../../../common/types/item.type';
 
 type ListItemPropsType = {
-  id?: number;
-  title: string;
-  description: string;
-  complete: boolean;
-  numberOfItems: number;
+  item: Item;
   isProcessing: boolean;
   onToggleComplete: Function;
   onEdit: Function;
@@ -19,18 +16,14 @@ type ListItemPropsType = {
 };
 
 export const ListItem: FC<ListItemPropsType> = ({
-  id,
-  title,
-  description,
-  complete,
-  numberOfItems,
+  item,
   isProcessing,
   onToggleComplete,
   onEdit,
   onDelete,
 }) => {
   return (
-    <div css={styles.listItem(complete)}>
+    <div css={styles.listItem(item.isComplete)}>
       <div css={styles.listItemLeftContainer}>
         {isProcessing ? (
           <CircularProgress
@@ -45,13 +38,13 @@ export const ListItem: FC<ListItemPropsType> = ({
           <Checkbox
             aria-label='toggle item done'
             onChange={handleToggleComplete}
-            defaultChecked={complete}
+            defaultChecked={item.isComplete}
           />
         )}
 
         <div css={styles.listItemMeta}>
-          <h3 css={styles.listItemTitle(complete)}>{title}</h3>
-          <p css={styles.listItemDescription(complete)}>{description}</p>
+          <h3 css={styles.listItemTitle(item.isComplete)}>{item.title}</h3>
+          <p css={styles.listItemDescription(item.isComplete)}>{item.description}</p>
         </div>
       </div>
       <div>
@@ -60,7 +53,7 @@ export const ListItem: FC<ListItemPropsType> = ({
           Icon={CreateOutlinedIcon}
           aria-label='Edit item'
           title='Edit item'
-          isDisabled={!!complete}
+          isDisabled={!!item.isComplete}
           css={{ marginRight: 20 }}
           onClick={handleOnEditClick}
         />
@@ -78,32 +71,23 @@ export const ListItem: FC<ListItemPropsType> = ({
   function handleToggleComplete() {
     if (onToggleComplete) {
       onToggleComplete({
-        id,
-        title,
-        description,
-        isComplete: !complete,
-        numberOfItems,
+        ...item,
+        isComplete: !item.isComplete,
       });
     }
   }
 
   function handleOnEditClick() {
-    if (complete) return;
+    if (item.isComplete) return;
 
     if (onEdit) {
-      onEdit({
-        id,
-        title,
-        description,
-        complete,
-        numberOfItems,
-      });
+      onEdit(item);
     }
   }
 
   function handleOnDeleteClick() {
     if (onDelete) {
-      onDelete(id);
+      onDelete(item);
     }
   }
 };

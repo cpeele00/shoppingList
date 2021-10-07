@@ -32,7 +32,6 @@ const ShoppingListContainer = () => {
   );
 
   function handleOnSave(item) {
-    console.log('hit');
     if (item.id) {
       dispatch(actions.updateItem(item));
     } else {

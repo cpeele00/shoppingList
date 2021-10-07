@@ -8,10 +8,10 @@
     "go": "concurrently \"npm run api\" \"npm run ui\"",
     "api": "cross-env NODE_DEV=development nodemon challenge-api/app.js",
     "ui": "node start-client.js",
+    "prisma": "cd challenge-api && npx prisma generate && npx prisma migrate dev",
     "install:all": "yarn install && yarn run install:ui && yarn run install:api",
     "install:ui": "cd challenge-ui && yarn install",
-    "install:api": "cd challenge-api && yarn install",
-    "prisma": "cd challenge-api && npx prisma generate && npx prisma migrate dev"
+    "install:api": "cd challenge-api && yarn install"
   },
   "author": "chris peele",
   "license": "ISC",

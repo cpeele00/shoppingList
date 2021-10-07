@@ -26,6 +26,7 @@ export const EmptyState: FC<EmptyStatePropsType> = ({ children }) => {
     display: 'flex',
     flexDirection: 'column',
     color: '#bbb',
+    textAlign: 'center',
   });
 
   return (

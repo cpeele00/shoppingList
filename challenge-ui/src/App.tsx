@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Header, Spinner } from './common/components';
-import './app.css';
 import { Container } from './common/components';
 
 const App = () => {
