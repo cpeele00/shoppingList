@@ -8,6 +8,8 @@ It will also run the setup for Prisma (ORM for NodeJs) which will generate a Sql
 
 Finally it will start both the Api server and the Client UI for you.
 
+I've verified that this installs and runs fine on both Windows and MacOS environments. I have not tested it with Linux.
+
 ## Please Note
 
 I wanted to include more in the sample project but unfortunately time was limited. A couple of the things that I didn't get to were: "Form validation" and "refactoring the Graphql TypeDefs and Resolvers into their own respective files for maintainabilty". Maybe later...
