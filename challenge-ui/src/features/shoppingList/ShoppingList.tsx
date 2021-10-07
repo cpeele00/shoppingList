@@ -53,12 +53,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
       return (
         <EmptyState>
           <>
-            <h2
-              css={{
-                color: '#87898C',
-              }}>
-              Your shopping list is empty :(
-            </h2>
+            <h2 css={styles.zeroStateMessage}>Your shopping list is empty :(</h2>
             <div>
               <Button variant='contained' onClick={() => setIsDrawerOpen(true)}>
                 Add your first item

@@ -19,3 +19,7 @@ export const actionArea = css({
   display: 'flex',
   justifyContent: 'space-between',
 });
+
+export const zeroStateMessage = css({
+  color: '#87898C',
+});
