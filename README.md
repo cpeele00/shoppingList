@@ -20,7 +20,7 @@ This is not a full fledge Full-stack demo app. It's primarily meant to be a Fron
 - Redux-ducks pattern
 - Render Props pattern
 - Composite component pattern
-- Redux Container / Presenational component pattern
+- Redux Container / Presentational component pattern
 
 ### Technologies Used
 
