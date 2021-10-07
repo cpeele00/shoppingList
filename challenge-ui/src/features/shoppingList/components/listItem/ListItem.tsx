@@ -25,22 +25,11 @@ export const ListItem: FC<ListItemPropsType> = ({
   return (
     <div css={styles.listItem(item.isComplete)}>
       <div css={styles.listItemLeftContainer}>
-        {isProcessing ? (
-          <CircularProgress
-            size={20}
-            css={{
-              color: '#1976d2',
-              marginRight: '12px',
-              marginLeft: '10px',
-            }}
-          />
-        ) : (
-          <Checkbox
-            aria-label='toggle item done'
-            onChange={handleToggleComplete}
-            defaultChecked={item.isComplete}
-          />
-        )}
+        <Checkbox
+          aria-label='toggle item done'
+          onChange={handleToggleComplete}
+          defaultChecked={item.isComplete}
+        />
 
         <div css={styles.listItemMeta}>
           <h3 css={styles.listItemTitle(item.isComplete)}>{item.title}</h3>
