@@ -25,6 +25,7 @@ This is not a full fledge Full-stack demo app. It's primarily meant to be a Fron
 ### Technologies Used
 
 - React
+- React Router
 - Redux (with Dev tools enabled)
 - Redux-Saga
 - TypeScript
