@@ -2,6 +2,8 @@
 
 ### `yarn start`
 
+## (Note: You must have the global npm package "nodemon" installed)
+
 This bad boy will install all of the npm packages for both the challenge-ui app and the challenge-api app and also this outer project as well.
 
 It will also run the setup for Prisma (ORM for NodeJs) which will generate a Sqlite db and run some migrations.
