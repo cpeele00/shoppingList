@@ -8,6 +8,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Item } from '../../common/types/item.type';
 import * as styles from './styles';
 import { statusType } from '../../common/constants/statusType.constants';
+import CircularProgress from '@mui/material/CircularProgress';
 
 type ShoppingListPropTypes = {
   items: any[];
@@ -41,17 +42,7 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
 
   return (
     <>
-      {renderZeroState()}
-      {renderShoppingListItems()}
-      {renderSnackbar()}
-      {renderDrawer()}
-      {renderModal()}
-    </>
-  );
-
-  function renderZeroState() {
-    if (items?.length === 0) {
-      return (
+      {items?.length === 0 ? (
         <EmptyState>
           <>
             <h2 css={styles.zeroStateMessage}>Your shopping list is empty :(</h2>
@@ -62,16 +53,13 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
             </div>
           </>
         </EmptyState>
-      );
-    }
-  }
-
-  function renderShoppingListItems() {
-    if (items?.length > 0) {
-      return (
+      ) : (
         <>
           <div css={styles.actionArea}>
-            <h2 css={styles.heading}>Your Items</h2>
+            <h2 css={styles.heading}>
+              Your Items
+              {isProcessing && <CircularProgress size={30} css={styles.headingSpinner} />}
+            </h2>
             <div>
               <PrimaryButton
                 size='medium'
@@ -81,41 +69,47 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
               </PrimaryButton>
             </div>
           </div>
+
           <List>
             {items?.map(item => (
               <List.Item
-                item={item}
+                id={`listItem-${item.id}`}
                 key={item.id}
-                isProcessing={isProcessing}
+                item={item}
                 onToggleComplete={handleToggleComplete}
                 onEdit={handleEditItem}
                 onDelete={handleDeleteItemRequest}
               />
             ))}
           </List>
+
+          <Snackbar
+            open={showSnackbar}
+            autoHideDuration={3000}
+            onClose={() => setShowSnackbar(false)}
+            message='test'
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <div css={styles.snackBar}>
+              <CheckCircleOutlineIcon css={{ marginRight: '10px' }} />
+              {status.message}
+            </div>
+          </Snackbar>
+
+          <Modal
+            title='Delete Item?'
+            contentText='Are you sure you want to delete this item? This cannot be undone.'
+            isOpen={isModalOpen}
+            ActionArea={() => (
+              <>
+                <SecondaryButton onClick={handleModalCancel}>Cancel</SecondaryButton>
+                <PrimaryButton variant='contained' onClick={handleOnDeleteItem}>
+                  Delete
+                </PrimaryButton>
+              </>
+            )}
+          />
         </>
-      );
-    }
-  }
-
-  function renderSnackbar() {
-    return (
-      <Snackbar
-        open={showSnackbar}
-        autoHideDuration={3000}
-        onClose={() => setShowSnackbar(false)}
-        message='test'
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <div css={styles.snackBar}>
-          <CheckCircleOutlineIcon css={{ marginRight: '10px' }} />
-          {status.message}
-        </div>
-      </Snackbar>
-    );
-  }
-
-  function renderDrawer() {
-    return (
+      )}
       <ItemDrawer
         item={selectedItem}
         isOpen={isDrawerOpen}
@@ -124,26 +118,8 @@ export const ShoppingList: FC<ShoppingListPropTypes> = ({
         closeDrawer={() => setIsDrawerOpen(false)}
         onSave={onSave}
       />
-    );
-  }
-
-  function renderModal() {
-    return (
-      <Modal
-        title='Delete Item?'
-        contentText='Are you sure you want to delete this item? This cannot be undone.'
-        isOpen={isModalOpen}
-        ActionArea={() => (
-          <>
-            <SecondaryButton onClick={handleModalCancel}>Cancel</SecondaryButton>
-            <PrimaryButton variant='contained' onClick={handleOnDeleteItem}>
-              Delete
-            </PrimaryButton>
-          </>
-        )}
-      />
-    );
-  }
+    </>
+  );
 
   function handleEditItem(item) {
     setSelectedItem(item);

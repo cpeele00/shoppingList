@@ -11,7 +11,6 @@ export const listItem = (isComplete: boolean) =>
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    flexWrap: 'wrap',
     marginBottom: 12,
     '&:last-child': {
       marginBottom: 0,
@@ -21,7 +20,6 @@ export const listItem = (isComplete: boolean) =>
 export const listItemLeftContainer = css({
   display: 'flex',
   alignItems: 'center',
-  flexWrap: 'wrap',
 });
 
 export const listItemTitle = (isComplete: boolean) =>
@@ -40,10 +38,15 @@ export const listItemDescription = (isComplete: boolean) =>
   css({
     marginTop: 0,
     marginBottom: 0,
+    paddingRight: '15px',
     color: '#7D7A7A',
     textDecoration: `${isComplete ? 'line-through' : 'none'}`,
     wordBreak: 'break-word',
   });
+
+export const listItemActions = css({
+  display: 'flex',
+});
 
 export const listItemMeta = css({
   marginLeft: 10,

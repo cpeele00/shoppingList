@@ -4,6 +4,15 @@ export const heading = css({
   color: '#000',
   fontWeight: 'bold',
   marginBottom: '11px',
+  position: 'relative',
+});
+
+export const headingSpinner = css({
+  color: '#1976d2',
+  marginRight: '12px',
+  position: 'absolute',
+  top: '-5px',
+  marginLeft: '10px',
 });
 
 export const snackBar = css({

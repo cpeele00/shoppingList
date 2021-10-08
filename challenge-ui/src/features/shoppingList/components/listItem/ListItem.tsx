@@ -3,21 +3,20 @@ import Checkbox from '@mui/material/Checkbox';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { IconButton } from '../../../../common/components';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import CircularProgress from '@mui/material/CircularProgress';
 import * as styles from './styles';
 import { Item } from '../../../../common/types/item.type';
 
 type ListItemPropsType = {
+  id: string;
   item: Item;
-  isProcessing: boolean;
   onToggleComplete: Function;
   onEdit: Function;
   onDelete: Function;
 };
 
 export const ListItem: FC<ListItemPropsType> = ({
+  id,
   item,
-  isProcessing,
   onToggleComplete,
   onEdit,
   onDelete,
@@ -26,17 +25,17 @@ export const ListItem: FC<ListItemPropsType> = ({
     <div css={styles.listItem(item.isComplete)}>
       <div css={styles.listItemLeftContainer}>
         <Checkbox
+          id={`${id}-checkbox`}
           aria-label='toggle item done'
           onChange={handleToggleComplete}
           defaultChecked={item.isComplete}
         />
-
         <div css={styles.listItemMeta}>
           <h3 css={styles.listItemTitle(item.isComplete)}>{item.title}</h3>
           <p css={styles.listItemDescription(item.isComplete)}>{item.description}</p>
         </div>
       </div>
-      <div>
+      <div css={styles.listItemActions}>
         <IconButton
           automationId={'editItem-id'}
           Icon={CreateOutlinedIcon}
